@@ -30,4 +30,10 @@ public class MainActivityTest {
         TextView mAppNameTextView = (TextView) activity.findViewById(R.id.appNameTextView);
         assertTrue("Welcome to WeatherApp".equals(mAppNameTextView.getText().toString()));
     }
+
+    @Test
+    public void validateTextViewContent2() {
+        TextView mAppNameTextView = (TextView) activity.findViewById(R.id.appNameTextView2);
+        assertTrue("Welcome to WeatherApp".equals(mAppNameTextView.getText().toString()));
+    }
 }
