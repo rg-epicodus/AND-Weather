@@ -1,5 +1,6 @@
 package com.example.guest.weather;
 
+import android.content.Intent;
 import android.os.Build;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowActivity;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -36,4 +38,14 @@ public class MainActivityTest {
         TextView mAppNameTextView = (TextView) activity.findViewById(R.id.appNameTextView2);
         assertTrue("Enter your Zip Code and see the forecast for the next 7 days".equals(mAppNameTextView.getText().toString()));
     }
+
+    @Test
+    public void secondActivityStarted() {
+        activity.findViewById(R.id.showForecastButton).performClick();
+        Intent expectedIntent = new Intent(activity, RestaurantListActivity.class);
+        ShadowActivity shadowActivity = org.robolectric.Shadows.shadowOf(activity);
+        Intent actualIntent = shadowActivity.getNextStartedActivity();
+        assertTrue(actualIntent.filterEquals(expectedIntent));
+    }
+
 }
