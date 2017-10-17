@@ -1,5 +1,7 @@
 package com.example.guest.weather.services;
 
+import android.util.Log;
+
 import com.example.guest.weather.Constants;
 import com.example.guest.weather.models.Forecast;
 
@@ -29,13 +31,12 @@ public class APIService {
                 .build();
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.API_BASE_URL).newBuilder();
-        urlBuilder.addQueryParameter(Constants.YOUR_QUERY_PARAMETER, location);
+        urlBuilder.addQueryParameter(Constants.LOCATION_QUERY_PARAMETER, location);
         urlBuilder.addQueryParameter(Constants.API_KEY_QUERY_PARAMETER, Constants.API_KEY);
         String url = urlBuilder.build().toString();
-
+        Log.v("String url", url);
         Request request= new Request.Builder()
                 .url(url)
-                .header("Authorization", Constants.API_KEY)
                 .build();
 
         Call call = client.newCall(request);
