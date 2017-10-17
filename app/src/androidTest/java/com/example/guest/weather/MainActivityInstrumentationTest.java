@@ -22,6 +22,6 @@ public class MainActivityInstrumentationTest {
 
     @Test
     public void validateButton(){
-        onView(withId(R.id.showForecastButto)).perform(click());
+        onView(withId(R.id.showForecastButton)).perform(click());
     }
 }
