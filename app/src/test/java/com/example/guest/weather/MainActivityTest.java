@@ -28,6 +28,6 @@ public class MainActivityTest {
     @Test
     public void validateTextViewContent() {
         TextView mAppNameTextView = (TextView) activity.findViewById(R.id.appNameTextView);
-        assertTrue("PlayedThat".equals(mAppNameTextView.getText().toString()));
+        assertTrue("Welcome to WeatherApp".equals(mAppNameTextView.getText().toString()));
     }
 }
