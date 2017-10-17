@@ -1,19 +1,29 @@
 package com.example.guest.weather.services;
 
 import com.example.guest.weather.Constants;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Request;
+import com.example.guest.weather.models.Forecast;
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Guest on 10/17/17.
  */
 
 public class APIService {
-    public static void findRestaurants(String location, Callback callback) {
+    public static void findForecasts(String location, Callback callback) {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .build();
@@ -31,5 +41,32 @@ public class APIService {
         Call call = client.newCall(request);
         call.enqueue(callback);
 
+    }
+
+    public ArrayList<Forecast> processResults(Response response) {
+        ArrayList<Forecast> forecasts = new ArrayList<>();
+
+        try {
+            String jsonData = response.body().string();
+            JSONObject apiJSON = new JSONObject(jsonData);
+            JSONArray listJSON = apiJSON.getJSONArray("list");
+            for (int i = 0; i < listJSON.length(); i++) {
+                JSONObject mainJSON = listJSON.getJSONObject(i);
+                double temp = mainJSON.getDouble("temp");
+                double temp_max = mainJSON.getDouble("temp_max");
+                double temp_min = mainJSON.getDouble("temp_min");
+                String currentWeather = mainJSON.getString("description");
+                int timeForecast = mainJSON.getInt("dt");
+                Forecast forecast = new Forecast(temp, temp_max, temp_min, currentWeather, timeForecast);
+                forecasts.add(forecast);
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+        return forecasts;
     }
 }

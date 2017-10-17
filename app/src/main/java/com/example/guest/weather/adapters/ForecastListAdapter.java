@@ -1,15 +1,21 @@
 package com.example.guest.weather.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.guest.weather.R;
 import com.example.guest.weather.models.Forecast;
+import com.example.guest.weather.ui.ForecastDetailActivity;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -47,10 +53,9 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
     }
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.forecastImageView)
-        ImageView mRestaurantImageView;
-        @Bind(R.id.forecastNameTextView)
-        TextView mNameTextView;
+//        @Bind(R.id.forecastImageView) ImageView mForecastImageView;
+//        @Bind(R.id.forecastTempTextView) TextView mTempTextView;
+        @Bind(R.id.currentWeatherTextView) TextView mCurrentWeatherTextView;
 //        @Bind(R.id.categoryTextView) TextView mCategoryTextView;
 //        @Bind(R.id.ratingTextView) TextView mRatingTextView;
 
@@ -63,20 +68,20 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
             itemView.setOnClickListener(this);
         }
 
-        public void bindRestaurant(Restaurant restaurant) {
-            Picasso.with(mContext).load(restaurant.getImageUrl()).into(mRestaurantImageView);
-            mNameTextView.setText(restaurant.getName());
-            mCategoryTextView.setText(restaurant.getCategories().get(0));
-            mRatingTextView.setText("Rating: " + restaurant.getRating() + "/5");
+        public void bindForecast(Forecast forecast) {
+//            Picasso.with(mContext).load(forecast.getImageUrl()).into(mForecastImageView);
+            mCurrentWeatherTextView.setText(forecast.getCurrentWeather());
+//            mCategoryTextView.setText(forecast.getCategories().get(0));
+//            mRatingTextView.setText("Rating: " + forecast.getRating() + "/5");
         }
 
         @Override
         public void onClick(View v) {
             Log.d("click listener", "working!");
             int itemPosition = getLayoutPosition();
-            Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
+            Intent intent = new Intent(mContext, ForecastDetailActivity.class);
             intent.putExtra("position", itemPosition + "");
-            intent.putExtra("restaurants", Parcels.wrap(mRestaurants));
+            intent.putExtra("forecasts", Parcels.wrap(mForecasts));
             mContext.startActivity(intent);
         }
     }

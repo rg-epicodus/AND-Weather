@@ -3,20 +3,22 @@ package com.example.guest.weather.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.telecom.Call;
 
 import com.example.guest.weather.R;
+import com.example.guest.weather.adapters.ForecastListAdapter;
 import com.example.guest.weather.models.Forecast;
 import com.example.guest.weather.services.APIService;
-import com.squareup.picasso.Downloader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by Guest on 10/17/17.
@@ -25,8 +27,7 @@ import butterknife.ButterKnife;
 public class ForecastListActivity extends AppCompatActivity {
     public static final String TAG = ForecastListActivity.class.getSimpleName();
 
-    @Bind(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private ForecastListAdapter mAdapter;
 
     public ArrayList<Forecast> forecasts = new ArrayList<>();
@@ -45,7 +46,7 @@ public class ForecastListActivity extends AppCompatActivity {
 
     private void getForecasts(String location) {
         final APIService apiService = new APIService();
-        apiService.findForecasts(location, new ItemTouchHelper.Callback() {
+        apiService.findForecasts(location, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -53,7 +54,7 @@ public class ForecastListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(Call call, Downloader.Response response) {
+            public void onResponse(Call call, Response response) {
                 forecasts = apiService.processResults(response);
 
                 ForecastListActivity.this.runOnUiThread(new Runnable() {
