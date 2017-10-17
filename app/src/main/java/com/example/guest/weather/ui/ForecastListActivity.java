@@ -28,8 +28,8 @@ import okhttp3.Response;
 
 public class ForecastListActivity extends AppCompatActivity {
     public static final String TAG = ForecastListActivity.class.getSimpleName();
-    @Bind(R.id.testText) TextView mTestText;
-//    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+//    @Bind(R.id.testText) TextView mTestText;
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private ForecastListAdapter mAdapter;
 
     public ArrayList<Forecast> forecasts = new ArrayList<>();
@@ -45,8 +45,8 @@ public class ForecastListActivity extends AppCompatActivity {
 
         getForecasts(location);
 
-        mTestText.setText("Weather near " + location);
-        System.out.println("Weather near " + location);
+//        mTestText.setText("Weather near " + location);
+//        System.out.println("Weather near " + location);
     }
 
     private void getForecasts(String location) {
@@ -59,41 +59,21 @@ public class ForecastListActivity extends AppCompatActivity {
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    String jsonData = response.body().string();
-                    Log.d(TAG, jsonData);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                forecasts = apiService.processResults(response);
+
+                ForecastListActivity.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mAdapter = new ForecastListAdapter(getApplicationContext(), forecasts);
+                        mRecyclerView.setAdapter(mAdapter);
+                        RecyclerView.LayoutManager layoutManager =
+                                new LinearLayoutManager(ForecastListActivity.this);
+                        mRecyclerView.setLayoutManager(layoutManager);
+                        mRecyclerView.setHasFixedSize(true);
+                    }
+                });
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//                forecasts = apiService.processResults(response);
-//
-//                ForecastListActivity.this.runOnUiThread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        mAdapter = new ForecastListAdapter(getApplicationContext(), forecasts);
-//                        mRecyclerView.setAdapter(mAdapter);
-//                        RecyclerView.LayoutManager layoutManager =
-//                                new LinearLayoutManager(ForecastListActivity.this);
-//                        mRecyclerView.setLayoutManager(layoutManager);
-//                        mRecyclerView.setHasFixedSize(true);
-//                    }
-//                });
-//            }
         });
     }
 }

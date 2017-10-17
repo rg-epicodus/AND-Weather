@@ -53,11 +53,12 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
     }
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//        @Bind(R.id.forecastImageView) ImageView mForecastImageView;
-//        @Bind(R.id.forecastTempTextView) TextView mTempTextView;
+        @Bind(R.id.forecastImageView) ImageView mForecastImageView;
+        @Bind(R.id.temp_maxTextView) TextView mTempMaxTextView;
+        @Bind(R.id.temp_minTextView) TextView mTempMinTextView;
         @Bind(R.id.currentWeatherTextView) TextView mCurrentWeatherTextView;
-//        @Bind(R.id.categoryTextView) TextView mCategoryTextView;
-//        @Bind(R.id.ratingTextView) TextView mRatingTextView;
+        @Bind(R.id.mainTextView) TextView mMainTextView;
+        @Bind(R.id.timeDateTextView) TextView mDate;
 
         private Context mContext;
 
@@ -69,10 +70,13 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         }
 
         public void bindForecast(Forecast forecast) {
-//            Picasso.with(mContext).load(forecast.getImageUrl()).into(mForecastImageView);
+            String iconUrl = "http://openweathermap.org/img/w/" + (forecast.getImageUrl()) + ".png";
+            Picasso.with(mContext).load(iconUrl).into(mForecastImageView);
+            mDate.setText(Integer.toString(forecast.getTimeForecast()));
+            mMainTextView.setText(forecast.getMain());
             mCurrentWeatherTextView.setText(forecast.getCurrentWeather());
-//            mCategoryTextView.setText(forecast.getCategories().get(0));
-//            mRatingTextView.setText("Rating: " + forecast.getRating() + "/5");
+            mTempMaxTextView.setText("Max Temp: " + Double.toString(forecast.getTemp_max()) + "\u00b0" + "F");
+            mTempMinTextView.setText("Min Temp: " + Double.toString(forecast.getTemp_min())+ "\u00b0" + "F");
         }
 
         @Override

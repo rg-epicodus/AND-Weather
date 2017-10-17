@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class ForecastDetailFragment extends Fragment {
-//    @Bind(R.id.forecastImageView) ImageView mImageLabel;
+    @Bind(R.id.forecastImageView) ImageView mImageLabel;
     @Bind(R.id.currentWeatherTextView) TextView mCurrentWeatherLabel;
 
 

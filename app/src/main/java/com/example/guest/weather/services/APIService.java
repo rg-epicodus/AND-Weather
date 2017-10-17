@@ -53,12 +53,13 @@ public class APIService {
             JSONArray listJSON = apiJSON.getJSONArray("list");
             for (int i = 0; i < listJSON.length(); i++) {
                 JSONObject mainJSON = listJSON.getJSONObject(i);
-                double temp = mainJSON.getDouble("temp");
-                double temp_max = mainJSON.getDouble("temp_max");
-                double temp_min = mainJSON.getDouble("temp_min");
-                String currentWeather = mainJSON.getString("description");
+                double temp_max = mainJSON.getJSONObject("main").getDouble("temp_max");
+                double temp_min = mainJSON.getJSONObject("main").getDouble("temp_min");
+                String main = mainJSON.getJSONArray("weather").getJSONObject(0).getString("main");
+                String currentWeather = mainJSON.getJSONArray("weather").getJSONObject(0).getString("description");
                 int timeForecast = mainJSON.getInt("dt");
-                Forecast forecast = new Forecast(temp, temp_max, temp_min, currentWeather, timeForecast);
+                String imageUrl = mainJSON.getJSONArray("weather").getJSONObject(0).getString("icon");
+                Forecast forecast = new Forecast(temp_max, temp_min, main, currentWeather, timeForecast, imageUrl);
                 forecasts.add(forecast);
             }
         }
