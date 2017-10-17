@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             Toast.makeText(MainActivity.this, "Show Forecast Clicked", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(MainActivity.this, ForecastActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, ForecastListActivity.class);
+                startActivity(intent);
             }
         });
     }
